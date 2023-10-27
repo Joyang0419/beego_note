@@ -1,0 +1,7 @@
+mysql:
+  username: "root"
+  password: "root"
+  network: "tcp"
+  ip: "mysql"
+  port: "3306"
+  dbName: "dev"

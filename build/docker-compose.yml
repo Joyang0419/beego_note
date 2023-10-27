@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: beego_mysql
+    build:
+      context: .
+      dockerfile: ./mysql/dockerfile
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 5s
+      retries: 10
+    networks:
+      - beego
+  app:
+    container_name: beego_app
+    build:
+      context: ..
+      dockerfile: ./build/beego/dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - beego
+
+#  migrate:
+#    image: migrate/migrate:latest
+#    command: [ "-path=/migrations", "-database=mysql://root:root@tcp(mysql:3306)/dev", "up" ]
+#    volumes:
+#      - ../db/migrations/mysql:/migrations
+#    depends_on:
+#      mysql:
+#        condition: service_healthy
+#    networks:
+#      - beego
+
+networks:
+  beego:

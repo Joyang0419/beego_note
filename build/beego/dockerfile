@@ -1,0 +1,20 @@
+# build stage
+# https://hub.docker.com/_/golang
+FROM golang:1.21.3-alpine3.17 AS builder
+# 設定工作目錄
+WORKDIR /app
+# 複製 Golang 源碼到容器
+COPY .. .
+# 建置二進制檔案
+RUN go build -o application .
+
+# deploy stage
+FROM golang:1.21.3-alpine3.17
+# 設定工作目錄
+WORKDIR /app
+# 從建置階段複製 Golang 執行檔到當前階段
+COPY --from=builder /app/application /app/application
+COPY ../conf /app/conf
+
+# 設定啟動命令
+CMD ["/app/application"]
