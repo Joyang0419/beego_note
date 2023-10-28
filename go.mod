@@ -3,6 +3,7 @@ module github.com/Joyang0419/beego_note
 go 1.20
 
 require (
+	github.com/astaxie/beego v1.12.3
 	github.com/beego/beego/v2 v2.1.3
 	github.com/go-sql-driver/mysql v1.7.0
 )

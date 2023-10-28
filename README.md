@@ -11,3 +11,5 @@
 - [X] 架設Beego 啟動於port: 8080 , 連線上MYSQL
 - [X] docker compose up -d, Beego, MYSQL
 - [X] beego 連線mysql, 需使用config 進行設定
+- [X] auth register 接口
+- [ ] login 需要紀錄session

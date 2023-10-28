@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/Joyang0419/beego_note/routers"
 	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/config"
 	_ "github.com/beego/beego/v2/core/config/yaml" // Import yaml
@@ -31,14 +32,19 @@ func main() {
 		MysqlConf.Network,
 		MysqlConf.IP,
 		MysqlConf.Port,
-		MysqlConf.DbName,
+		MysqlConf.Dbname,
 		"default",
 	)
 	if err != nil {
 		panic(fmt.Errorf("RegisterMYSQLORM err: %w", err))
 	}
 
-	_ = o
+	// init route
+	routers.InitAuth(o)
+	// 為了讓controller c.Ctx.Input.RequestBody 是有值的
+	web.BConfig.CopyRequestBody = true
+	// 可能存在性能问题，不建议使用在生产模式, 可以印出sql語法
+	orm.Debug = true
 	web.Run()
 }
 
@@ -48,11 +54,11 @@ type MYSQLConfig struct {
 	Network  string
 	IP       string
 	Port     string
-	DbName   string
+	Dbname   string
 }
 
 func RegisterMYSQLORM(username, password, network, ip, port, dbName, aliasName string) (orm.Ormer, error) {
-	fmt.Println(port)
+
 	var (
 		err        error
 		dataSource = fmt.Sprintf("%s:%s@%s(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", username, password, network, ip, port, dbName)

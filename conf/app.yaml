@@ -2,6 +2,6 @@ mysql:
   username: "root"
   password: "root"
   network: "tcp"
-  ip: "mysql"
+  ip: "localhost"
   port: "3306"
-  dbName: "dev"
+  dbname: "dev"
