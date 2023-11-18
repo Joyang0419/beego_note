@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  redis:
+    restart: always
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - beego
   mysql:
     container_name: beego_mysql
     build:
@@ -24,16 +32,16 @@ services:
     networks:
       - beego
 
-#  migrate:
-#    image: migrate/migrate:latest
-#    command: [ "-path=/migrations", "-database=mysql://root:root@tcp(mysql:3306)/dev", "up" ]
-#    volumes:
-#      - ../db/migrations/mysql:/migrations
-#    depends_on:
-#      mysql:
-#        condition: service_healthy
-#    networks:
-#      - beego
+  migrate:
+    image: migrate/migrate:latest
+    command: [ "-path=/migrations", "-database=mysql://root:root@tcp(mysql:3306)/dev", "up" ]
+    volumes:
+      - ../db/migrations/mysql:/migrations
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - beego
 
 networks:
   beego:

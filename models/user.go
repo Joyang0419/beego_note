@@ -1,11 +1,16 @@
 package models
 
-import "github.com/beego/beego/v2/client/orm"
+import (
+	"time"
+
+	"github.com/beego/beego/v2/client/orm"
+)
 
 type User struct {
-	Id       int
-	Account  string
-	Password string
+	ID        int       `orm:"column(id)"`
+	Account   string    `orm:"column(account);size(255)"`
+	Password  string    `orm:"column(password);size(255)"`
+	LoginTime time.Time `orm:"column(login_time)"`
 }
 
 func (u *User) TableName() string {
